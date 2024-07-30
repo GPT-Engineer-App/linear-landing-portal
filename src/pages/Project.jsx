@@ -12,10 +12,7 @@ const Project = () => {
   const { id } = useParams();
   const location = useLocation();
   const [project, setProject] = useState(null);
-  const [issues, setIssues] = useState([
-    { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
-    { id: 2, title: 'Implement dark mode', description: 'Add dark mode option to settings', status: 'To Do' },
-  ]);
+  const [issues, setIssues] = useState([]);
 
   useEffect(() => {
     // Fetch project details from the state passed through navigation

@@ -40,7 +40,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
   };
 
   const handleAddProject = (teamId, project) => {
-    const newProject = { ...project, teamId, id: Date.now() };
+    const newProject = { ...project, teamId, id: Date.now(), issues: [] };
     onAddProject(teamId, newProject);
     setIsAddProjectModalOpen(false);
     setSelectedTeam(null);
