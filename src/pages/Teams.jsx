@@ -90,7 +90,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center">
                 <Button variant="outline" onClick={() => {
                   setSelectedTeam(team);
                   setShowProjectForm(true);
@@ -102,25 +102,6 @@ const Teams = ({ initialTeams, onAddProject }) => {
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              {team.projects.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-semibold mb-2">Projects:</h4>
-                  <ul className="space-y-2">
-                    {team.projects.map((project) => (
-                      <li key={project.id} className="flex justify-between items-center bg-gray-100 p-2 rounded">
-                        <span>{project.name}</span>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => handleDeleteProject(team.id, project.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
