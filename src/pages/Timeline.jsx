@@ -1,23 +1,14 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { GanttChart } from 'react-gantt-chart';
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, differenceInDays } from 'date-fns';
 
 const Timeline = ({ milestones }) => {
-  const tasks = milestones.map((milestone, index) => ({
-    id: index.toString(),
-    name: milestone.title,
-    start: parseISO(milestone.startDate),
-    end: parseISO(milestone.endDate),
-    progress: 0,
-    type: 'task',
-    isDisabled: false,
-    styles: { progressColor: `hsl(${index * 45}, 70%, 60%)`, progressSelectedColor: `hsl(${index * 45}, 70%, 60%)` }
-  }));
+  const sortedMilestones = [...milestones].sort((a, b) => parseISO(a.startDate) - parseISO(b.startDate));
+  const startDate = sortedMilestones.length > 0 ? parseISO(sortedMilestones[0].startDate) : new Date();
+  const endDate = sortedMilestones.length > 0 ? parseISO(sortedMilestones[sortedMilestones.length - 1].endDate) : new Date();
+  const totalDays = differenceInDays(endDate, startDate) + 1;
 
-  const formatDate = (date) => {
-    return format(date, 'MM/dd/yyyy');
-  };
+  const formatDate = (date) => format(parseISO(date), 'MM/dd/yyyy');
 
   return (
     <Card className="w-full mb-8">
@@ -25,32 +16,29 @@ const Timeline = ({ milestones }) => {
         <CardTitle>Project Timeline</CardTitle>
       </CardHeader>
       <CardContent>
-        <div style={{ height: '300px' }}>
-          <GanttChart
-            tasks={tasks}
-            viewMode="Month"
-            onDateChange={(task, start, end) => {
-              console.log(task, start, end);
-            }}
-            onProgressChange={(task, progress) => {
-              console.log(task, progress);
-            }}
-            onDoubleClick={(task) => {
-              console.log(task);
-            }}
-            onTaskSelect={(task) => {
-              console.log(task);
-            }}
-            listCellWidth=""
-            columnWidth={60}
-            TooltipContent={({ task }) => (
-              <div className="bg-white p-2 border rounded shadow">
-                <p className="font-bold">{task.name}</p>
-                <p>Start: {formatDate(task.start)}</p>
-                <p>End: {formatDate(task.end)}</p>
+        <div className="relative h-[300px]">
+          {sortedMilestones.map((milestone, index) => {
+            const start = parseISO(milestone.startDate);
+            const end = parseISO(milestone.endDate);
+            const left = (differenceInDays(start, startDate) / totalDays) * 100;
+            const width = (differenceInDays(end, start) + 1) / totalDays * 100;
+
+            return (
+              <div
+                key={index}
+                className="absolute h-8 rounded-full flex items-center justify-center text-xs text-white overflow-hidden"
+                style={{
+                  left: `${left}%`,
+                  width: `${width}%`,
+                  top: `${index * 40}px`,
+                  backgroundColor: `hsl(${index * 45}, 70%, 60%)`
+                }}
+                title={`${milestone.title}\nStart: ${formatDate(milestone.startDate)}\nEnd: ${formatDate(milestone.endDate)}`}
+              >
+                {milestone.title}
               </div>
-            )}
-          />
+            );
+          })}
         </div>
       </CardContent>
     </Card>
