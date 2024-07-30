@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Projects from './Projects';
 import AddProjectModal from './AddProjectModal';
+import { useNavigate } from 'react-router-dom';
 
 const Teams = ({ initialTeams, onAddProject }) => {
+  const navigate = useNavigate();
   const [teams, setTeams] = useState(initialTeams);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
@@ -38,10 +40,11 @@ const Teams = ({ initialTeams, onAddProject }) => {
   };
 
   const handleAddProject = (teamId, project) => {
-    const newProject = { ...project, teamId };
+    const newProject = { ...project, teamId, id: Date.now() };
     onAddProject(teamId, newProject);
     setIsAddProjectModalOpen(false);
     setSelectedTeam(null);
+    navigate(`/project/${newProject.id}`);
   };
 
   const handleDeleteProject = (projectId) => {
