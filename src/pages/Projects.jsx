@@ -16,20 +16,20 @@ const Projects = ({ projects = [], onDeleteProject }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
         <Card key={project.id} className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <CardHeader>
-            <CardTitle className="flex items-center text-2xl font-bold">
-              <Folder className="mr-3 h-6 w-6 text-blue-500" />
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center text-xl font-bold">
+              <Folder className="mr-2 h-5 w-5 text-blue-500" />
               {project.name}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
-            <Badge className="mb-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{project.description}</p>
+            <Badge className="mb-3 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
               <Users className="mr-1 h-3 w-3" />
               {project.teamName}
             </Badge>
-            <div className="flex justify-between items-center">
-              <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900" asChild>
+            <div className="flex flex-col space-y-2">
+              <Button variant="outline" className="w-full justify-start hover:bg-blue-100 dark:hover:bg-blue-900" asChild>
                 <Link to={`/project/${project.id}`} state={{ project }}>
                   <ExternalLink className="mr-2 h-4 w-4" />
                   View Project
@@ -37,7 +37,7 @@ const Projects = ({ projects = [], onDeleteProject }) => {
               </Button>
               <Button 
                 variant="outline" 
-                className="hover:bg-blue-100 dark:hover:bg-blue-900 ml-2" 
+                className="w-full justify-start hover:bg-blue-100 dark:hover:bg-blue-900" 
                 asChild
               >
                 <Link to={`/project/${project.id}`} state={{ project, showIssues: true }}>
@@ -47,11 +47,11 @@ const Projects = ({ projects = [], onDeleteProject }) => {
               </Button>
               <Button 
                 variant="destructive" 
-                size="icon" 
+                className="w-full justify-start"
                 onClick={() => handleDelete(project.id)}
-                className="ml-2"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Project
               </Button>
             </div>
           </CardContent>
