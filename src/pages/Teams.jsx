@@ -34,7 +34,8 @@ const Teams = ({ initialTeams, onAddProject }) => {
   };
 
   const handleAddProject = (teamId, project) => {
-    onAddProject(teamId, project);
+    const newProject = { ...project, teamId };
+    onAddProject(teamId, newProject);
     setShowProjectForm(false);
     setSelectedTeam(null);
   };

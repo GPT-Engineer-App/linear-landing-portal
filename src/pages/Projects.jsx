@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Folder, Trash2 } from "lucide-react";
+import { Folder, Trash2, Users } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Projects = ({ projects = [], onDeleteProject }) => {
   const handleDelete = (projectId) => {
@@ -21,6 +22,10 @@ const Projects = ({ projects = [], onDeleteProject }) => {
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
+            <Badge className="mb-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+              <Users className="mr-1 h-3 w-3" />
+              {project.teamName}
+            </Badge>
             <div className="flex justify-between items-center">
               <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900">
                 View Issues

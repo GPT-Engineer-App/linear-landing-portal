@@ -12,7 +12,7 @@ const Index = () => {
       name: 'Frontend Team', 
       description: 'Responsible for UI/UX development',
       projects: [
-        { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website' },
+        { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website', teamId: 1 },
       ]
     },
     { 
@@ -20,12 +20,14 @@ const Index = () => {
       name: 'Backend Team', 
       description: 'Handles server-side logic and databases',
       projects: [
-        { id: 2, name: 'Mobile App', description: 'Development of iOS and Android apps' },
+        { id: 2, name: 'Mobile App', description: 'Development of iOS and Android apps', teamId: 2 },
       ]
     },
   ]);
 
-  const allProjects = teams.flatMap(team => team.projects);
+  const allProjects = teams.flatMap(team => 
+    team.projects.map(project => ({ ...project, teamName: team.name }))
+  );
 
   const issues = [
     { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
@@ -69,7 +71,7 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Projects</h2>
-          <Projects projects={teams.flatMap(team => team.projects)} />
+          <Projects projects={allProjects} />
         </section>
 
         <section className="mb-20">
