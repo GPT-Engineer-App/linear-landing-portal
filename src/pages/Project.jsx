@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home, File, Flag } from "lucide-react";
-import GanttChart from './Timeline';
+import Timeline from './Timeline';
 
 const Project = () => {
   const { id } = useParams();
@@ -246,7 +246,7 @@ const Project = () => {
         </DialogContent>
       </Dialog>
 
-      <GanttChart milestones={milestones} />
+      <Timeline milestones={milestones} />
 
       <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
         <File className="mr-2 h-6 w-6" />
