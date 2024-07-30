@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Plus, Trash2, FolderPlus } from "lucide-react";
+import { Users, Plus, Trash2, FolderPlus, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -115,13 +115,19 @@ const Teams = ({ initialTeams, onAddProject }) => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
-              <Button variant="outline" onClick={() => {
-                setSelectedTeam(team);
-                setIsAddProjectModalOpen(true);
-              }}>
-                <FolderPlus className="mr-2 h-4 w-4" />
-                Add Project
-              </Button>
+              <div className="flex space-x-2">
+                <Button variant="outline" onClick={() => {
+                  setSelectedTeam(team);
+                  setIsAddProjectModalOpen(true);
+                }}>
+                  <FolderPlus className="mr-2 h-4 w-4" />
+                  Add Project
+                </Button>
+                <Button variant="outline">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Manage Team
+                </Button>
+              </div>
               <div className="mt-4">
                 <h4 className="text-lg font-semibold mb-2">Projects</h4>
                 <Projects 

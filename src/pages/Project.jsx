@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Plus, Pencil, Trash2 } from "lucide-react";
+import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock } from "lucide-react";
 
 const Project = () => {
   const { id } = useParams();
@@ -35,7 +35,10 @@ const Project = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Project {id}</h1>
+      <h1 className="text-3xl font-bold mb-6 flex items-center">
+        <FileText className="mr-2 h-8 w-8" />
+        Project {id}
+      </h1>
       
       <Dialog open={isAddIssueModalOpen} onOpenChange={setIsAddIssueModalOpen}>
         <DialogTrigger asChild>
@@ -108,7 +111,12 @@ const Project = () => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-2">{issue.description}</p>
-              <div className="text-sm font-semibold">{issue.status}</div>
+              <div className="text-sm font-semibold flex items-center">
+                {issue.status === 'To Do' && <Clock className="mr-1 h-4 w-4 text-yellow-500" />}
+                {issue.status === 'In Progress' && <AlertCircle className="mr-1 h-4 w-4 text-blue-500" />}
+                {issue.status === 'Done' && <CheckCircle className="mr-1 h-4 w-4 text-green-500" />}
+                {issue.status}
+              </div>
             </CardContent>
           </Card>
         ))}

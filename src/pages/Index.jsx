@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Layers, Users, Folder, AlertCircle } from "lucide-react";
 import Teams from './Teams';
 import Projects from './Projects';
 import Issues from './Issues';
@@ -46,7 +46,10 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <header className="container mx-auto py-6">
         <nav className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Linear</h1>
+          <h1 className="text-2xl font-bold flex items-center">
+            <Layers className="mr-2 h-6 w-6" />
+            Linear
+          </h1>
           <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">
             Sign Up
           </Button>
@@ -65,12 +68,18 @@ const Index = () => {
         </section>
 
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6">Your Teams</h2>
+          <h2 className="text-3xl font-bold mb-6 flex items-center">
+            <Users className="mr-2 h-6 w-6" />
+            Your Teams
+          </h2>
           <Teams initialTeams={teams} onAddProject={handleAddProject} />
         </section>
 
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6">Projects</h2>
+          <h2 className="text-3xl font-bold mb-6 flex items-center">
+            <Folder className="mr-2 h-6 w-6" />
+            Projects
+          </h2>
           <Projects projects={allProjects} />
         </section>
 
