@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home } from "lucide-react";
+import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home, File } from "lucide-react";
 
 const Project = () => {
   const { id } = useParams();
   const location = useLocation();
   const [project, setProject] = useState(null);
   const [issues, setIssues] = useState([]);
+  const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     // Fetch project details from the state passed through navigation
@@ -25,8 +26,10 @@ const Project = () => {
     }
   }, [id, location]);
   const [isAddIssueModalOpen, setIsAddIssueModalOpen] = useState(false);
+  const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false);
   const [editingIssue, setEditingIssue] = useState(null);
   const [newIssue, setNewIssue] = useState({ title: '', description: '', status: 'To Do' });
+  const [newDocument, setNewDocument] = useState({ name: '', url: '' });
 
   const handleAddIssue = () => {
     setIssues([...issues, { ...newIssue, id: Date.now() }]);
@@ -183,6 +186,74 @@ const Project = () => {
           </DialogContent>
         </Dialog>
       )}
+
+      <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+        <File className="mr-2 h-6 w-6" />
+        Documents
+      </h2>
+
+      <Dialog open={isAddDocumentModalOpen} onOpenChange={setIsAddDocumentModalOpen}>
+        <DialogTrigger asChild>
+          <Button className="mb-4">
+            <Plus className="mr-2 h-4 w-4" /> Add New Document
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Document</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="documentName">Document Name</Label>
+              <Input
+                id="documentName"
+                value={newDocument.name}
+                onChange={(e) => setNewDocument({...newDocument, name: e.target.value})}
+                placeholder="Enter document name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="documentUrl">Document URL</Label>
+              <Input
+                id="documentUrl"
+                value={newDocument.url}
+                onChange={(e) => setNewDocument({...newDocument, url: e.target.value})}
+                placeholder="Enter document URL"
+              />
+            </div>
+            <Button onClick={() => {
+              setDocuments([...documents, { ...newDocument, id: Date.now() }]);
+              setNewDocument({ name: '', url: '' });
+              setIsAddDocumentModalOpen(false);
+            }}>Add Document</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <div className="space-y-4">
+        {documents.map((document) => (
+          <Card key={document.id}>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <File className="mr-2 h-4 w-4" />
+                  {document.name}
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => {
+                  setDocuments(documents.filter(doc => doc.id !== document.id));
+                }}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <a href={document.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                View Document
+              </a>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

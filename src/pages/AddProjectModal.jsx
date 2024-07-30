@@ -17,7 +17,7 @@ const AddProjectModal = ({ isOpen, onClose, onSubmit, teamId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (projectName && projectDescription) {
-      onSubmit(teamId, { name: projectName, description: projectDescription, issues: [] });
+      onSubmit(teamId, { name: projectName, description: projectDescription, issues: [], documents: [] });
       setProjectName('');
       setProjectDescription('');
       onClose();
