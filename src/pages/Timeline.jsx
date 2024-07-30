@@ -18,8 +18,8 @@ const Timeline = ({ milestones }) => {
       const left = (differenceInDays(date, startDate) / totalDays) * 100;
       markers.push(
         <div key={i} className="absolute" style={{ left: `${left}%`, top: '100%' }}>
-          <div className="h-2 w-px bg-gray-300 mb-1"></div>
-          <span className="text-xs text-gray-500">{format(date, 'MM/dd')}</span>
+          <div className="h-2 w-px bg-gray-300 mb-2"></div>
+          <span className="text-xs text-gray-500 mt-2">{format(date, 'MM/dd')}</span>
         </div>
       );
     }
@@ -32,7 +32,7 @@ const Timeline = ({ milestones }) => {
         <CardTitle>Project Timeline</CardTitle>
       </CardHeader>
       <CardContent className="px-0 pb-0">
-        <div className="relative h-[300px]">
+        <div className="relative h-[320px]">
           {sortedMilestones.map((milestone, index) => {
             const start = parseISO(milestone.startDate);
             const end = parseISO(milestone.endDate);
