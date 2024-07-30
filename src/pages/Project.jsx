@@ -40,6 +40,7 @@ const Project = () => {
   };
 
   const showIssues = location.state?.showIssues || false;
+  const showOverview = location.state?.showOverview || false;
 
   return (
     <div className="container mx-auto p-6">
@@ -48,15 +49,27 @@ const Project = () => {
           <FileText className="mr-2 h-8 w-8" />
           {project ? project.name : 'Loading...'}
         </h1>
-        <Button asChild variant="outline">
-          <Link to="/" className="flex items-center">
-            <Home className="mr-2 h-4 w-4" />
-            Back to Home
-          </Link>
-        </Button>
+        <div className="space-x-2">
+          <Button asChild variant="outline">
+            <Link to={`/project/${id}`} state={{ project, showOverview: true }} className="flex items-center">
+              Overview
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to={`/project/${id}`} state={{ project, showIssues: true }} className="flex items-center">
+              Issues
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/" className="flex items-center">
+              <Home className="mr-2 h-4 w-4" />
+              Back to Home
+            </Link>
+          </Button>
+        </div>
       </nav>
       
-      {showIssues ? (
+      {showIssues && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4 flex items-center">
             <AlertCircle className="mr-2 h-6 w-6" />
@@ -96,7 +109,9 @@ const Project = () => {
             <Plus className="mr-2 h-4 w-4" /> Add New Issue
           </Button>
         </div>
-      ) : (
+      )}
+      
+      {showOverview && (
         <>
           <Timeline milestones={milestones} />
           
