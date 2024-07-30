@@ -17,9 +17,9 @@ const Timeline = ({ milestones }) => {
       const date = addDays(startDate, (totalDays / (markerCount - 1)) * i);
       const left = (differenceInDays(date, startDate) / totalDays) * 100;
       markers.push(
-        <div key={i} className="absolute" style={{ left: `${left}%`, top: '100%' }}>
-          <div className="h-2 w-px bg-gray-300 mb-2"></div>
-          <span className="text-xs text-gray-500 mt-2">{format(date, 'MM/dd')}</span>
+        <div key={i} className="absolute" style={{ left: `${left}%`, bottom: '0' }}>
+          <div className="h-2 w-px bg-gray-300"></div>
+          <span className="text-xs text-gray-500 absolute whitespace-nowrap" style={{ bottom: '-20px', transform: 'translateX(-50%)' }}>{format(date, 'MM/dd')}</span>
         </div>
       );
     }
@@ -32,7 +32,7 @@ const Timeline = ({ milestones }) => {
         <CardTitle>Project Timeline</CardTitle>
       </CardHeader>
       <CardContent className="px-0 pb-0">
-        <div className="relative h-[320px]">
+        <div className="relative h-[360px]">
           {sortedMilestones.map((milestone, index) => {
             const start = parseISO(milestone.startDate);
             const end = parseISO(milestone.endDate);
@@ -55,7 +55,7 @@ const Timeline = ({ milestones }) => {
               </div>
             );
           })}
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
+          <div className="absolute bottom-8 left-0 right-0 h-px bg-gray-300"></div>
           {generateDateMarkers()}
         </div>
       </CardContent>
