@@ -46,6 +46,14 @@ const Teams = ({ initialTeams, onAddProject }) => {
     })));
   };
 
+  const handleDeleteProjectForTeam = (teamId, projectId) => {
+    setTeams(teams.map(team => 
+      team.id === teamId
+        ? { ...team, projects: team.projects.filter(project => project.id !== projectId) }
+        : team
+    ));
+  };
+
   return (
     <div className="p-6 bg-gray-100">
       <form onSubmit={handleAddTeam} className="mb-8 p-8 bg-white rounded-lg shadow-lg">
@@ -104,7 +112,10 @@ const Teams = ({ initialTeams, onAddProject }) => {
               </Button>
               <div className="mt-4">
                 <h4 className="text-lg font-semibold mb-2">Projects</h4>
-                <Projects projects={team.projects} onDeleteProject={handleDeleteProject} />
+                <Projects 
+                  projects={team.projects} 
+                  onDeleteProject={(projectId) => handleDeleteProjectForTeam(team.id, projectId)} 
+                />
               </div>
             </CardContent>
           </Card>

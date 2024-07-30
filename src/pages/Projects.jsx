@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Folder, Trash2 } from "lucide-react";
 
 const Projects = ({ projects = [], onDeleteProject }) => {
+  const handleDelete = (projectId) => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      onDeleteProject(projectId);
+    }
+  };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
@@ -23,7 +28,7 @@ const Projects = ({ projects = [], onDeleteProject }) => {
               <Button 
                 variant="destructive" 
                 size="icon" 
-                onClick={() => onDeleteProject(project.id)}
+                onClick={() => handleDelete(project.id)}
                 className="ml-2"
               >
                 <Trash2 className="h-4 w-4" />
