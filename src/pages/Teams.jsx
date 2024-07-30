@@ -40,7 +40,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
   const handleAddProject = (teamId, project) => {
     const newProject = { ...project, teamId };
     onAddProject(teamId, newProject);
-    setShowProjectForm(false);
+    setIsAddProjectModalOpen(false);
     setSelectedTeam(null);
   };
 
