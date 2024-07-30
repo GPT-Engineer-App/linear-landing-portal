@@ -36,6 +36,16 @@ const Projects = ({ projects = [], onDeleteProject }) => {
                 </Link>
               </Button>
               <Button 
+                variant="outline" 
+                className="hover:bg-blue-100 dark:hover:bg-blue-900 ml-2" 
+                asChild
+              >
+                <Link to={`/project/${project.id}`} state={{ project, showIssues: true }}>
+                  <AlertCircle className="mr-2 h-4 w-4" />
+                  View Issues
+                </Link>
+              </Button>
+              <Button 
                 variant="destructive" 
                 size="icon" 
                 onClick={() => handleDelete(project.id)}
