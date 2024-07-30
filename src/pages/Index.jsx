@@ -74,10 +74,6 @@ const Index = () => {
           <Projects projects={allProjects} />
         </section>
 
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6">Active Issues</h2>
-          <Issues issues={issues} />
-        </section>
       </main>
 
       <footer className="container mx-auto mt-20 py-6 text-center text-gray-400">

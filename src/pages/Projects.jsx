@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Folder, Trash2, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Link } from 'react-router-dom';
 
 const Projects = ({ projects = [], onDeleteProject }) => {
   const handleDelete = (projectId) => {
@@ -27,8 +28,8 @@ const Projects = ({ projects = [], onDeleteProject }) => {
               {project.teamName}
             </Badge>
             <div className="flex justify-between items-center">
-              <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900">
-                View Issues
+              <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900" asChild>
+                <Link to={`/project/${project.id}`}>View Issues</Link>
               </Button>
               <Button 
                 variant="destructive" 

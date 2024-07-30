@@ -2,7 +2,7 @@ import { Home, Users, Folder, AlertCircle } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Teams from "./pages/Teams.jsx";
 import Projects from "./pages/Projects.jsx";
-import Issues from "./pages/Issues.jsx";
+import Project from "./pages/Project.jsx";
 
 /**
  * Central place for defining the navigation items. Used for navigation components and routing.
@@ -27,9 +27,9 @@ export const navItems = [
     page: <Projects projects={[]} />,
   },
   {
-    title: "Issues",
-    to: "/issues",
-    icon: <AlertCircle className="h-4 w-4" />,
-    page: <Issues issues={[]} />,
+    title: "Project",
+    to: "/project/:id",
+    icon: <Folder className="h-4 w-4" />,
+    page: <Project />,
   },
 ];
