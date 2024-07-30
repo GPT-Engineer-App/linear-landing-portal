@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Teams from './Teams';
@@ -7,15 +7,24 @@ import Issues from './Issues';
 
 const Index = () => {
   // Mock data for demonstration
-  const teams = [
-    { id: 1, name: 'Frontend Team', description: 'Responsible for UI/UX development' },
-    { id: 2, name: 'Backend Team', description: 'Handles server-side logic and databases' },
-  ];
-
-  const projects = [
-    { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website' },
-    { id: 2, name: 'Mobile App', description: 'Development of iOS and Android apps' },
-  ];
+  const [teams, setTeams] = useState([
+    { 
+      id: 1, 
+      name: 'Frontend Team', 
+      description: 'Responsible for UI/UX development',
+      projects: [
+        { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website' },
+      ]
+    },
+    { 
+      id: 2, 
+      name: 'Backend Team', 
+      description: 'Handles server-side logic and databases',
+      projects: [
+        { id: 2, name: 'Mobile App', description: 'Development of iOS and Android apps' },
+      ]
+    },
+  ]);
 
   const issues = [
     { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
@@ -51,7 +60,7 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Current Projects</h2>
-          <Projects projects={projects} />
+          <Projects teams={teams} />
         </section>
 
         <section className="mb-20">

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Plus, Trash2 } from "lucide-react";
+import { Users, Plus, Trash2, FolderPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ProjectForm from './ProjectForm';
 
 const Teams = ({ initialTeams }) => {
-  const [teams, setTeams] = useState(initialTeams);
+  const [teams, setTeams] = useState(initialTeams.map(team => ({ ...team, projects: [] })));
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
+  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
   const handleAddTeam = (e) => {
     e.preventDefault();
@@ -17,6 +20,7 @@ const Teams = ({ initialTeams }) => {
         id: Date.now(),
         name: newTeamName,
         description: newTeamDescription,
+        projects: [],
       };
       setTeams([...teams, newTeam]);
       setNewTeamName('');
@@ -26,6 +30,23 @@ const Teams = ({ initialTeams }) => {
 
   const handleDeleteTeam = (id) => {
     setTeams(teams.filter(team => team.id !== id));
+  };
+
+  const handleAddProject = (teamId, project) => {
+    setTeams(teams.map(team => 
+      team.id === teamId 
+        ? { ...team, projects: [...team.projects, { ...project, id: Date.now() }] }
+        : team
+    ));
+    setShowProjectForm(false);
+  };
+
+  const handleDeleteProject = (teamId, projectId) => {
+    setTeams(teams.map(team => 
+      team.id === teamId 
+        ? { ...team, projects: team.projects.filter(project => project.id !== projectId) }
+        : team
+    ));
   };
 
   return (
@@ -72,16 +93,44 @@ const Teams = ({ initialTeams }) => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
-              <div className="flex justify-between items-center">
-                <Button variant="outline">View Projects</Button>
+              <div className="flex justify-between items-center mb-4">
+                <Button variant="outline" onClick={() => {
+                  setSelectedTeam(team);
+                  setShowProjectForm(true);
+                }}>
+                  <FolderPlus className="mr-2 h-4 w-4" />
+                  Add Project
+                </Button>
                 <Button variant="destructive" size="icon" onClick={() => handleDeleteTeam(team.id)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
+              {team.projects.length > 0 && (
+                <div>
+                  <h4 className="font-semibold mb-2">Projects:</h4>
+                  <ul className="list-disc list-inside">
+                    {team.projects.map((project) => (
+                      <li key={project.id} className="flex justify-between items-center mb-2">
+                        <span>{project.name}</span>
+                        <Button variant="destructive" size="sm" onClick={() => handleDeleteProject(team.id, project.id)}>
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
       </div>
+      {showProjectForm && selectedTeam && (
+        <ProjectForm
+          teamId={selectedTeam.id}
+          onSubmit={handleAddProject}
+          onCancel={() => setShowProjectForm(false)}
+        />
+      )}
     </div>
   );
 };
