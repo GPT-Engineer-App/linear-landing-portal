@@ -30,7 +30,7 @@ const Projects = ({ projects = [], onDeleteProject }) => {
             </Badge>
             <div className="flex justify-between items-center">
               <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900" asChild>
-                <Link to={`/project/${project.id}`} state={{ project }}>
+                <Link to={`/project/${project.id}`}>
                   <ExternalLink className="mr-2 h-4 w-4" />
                   View Project
                 </Link>

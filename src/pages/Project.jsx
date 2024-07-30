@@ -22,15 +22,30 @@ const Project = () => {
     const fetchProject = async () => {
       try {
         // In a real application, you would fetch this data from your backend
-        const response = await fetch(`/api/projects/${id}`);
-        if (!response.ok) {
-          throw new Error('Project not found');
-        }
-        const projectData = await response.json();
-        setProject(projectData);
-        setMilestones(projectData.milestones || []);
-        setIssues(projectData.issues || []);
-        setDocuments(projectData.documents || []);
+        // For now, we'll use a mock API call
+        const mockProjectData = {
+          id: id,
+          name: `Project ${id}`,
+          description: 'This is a mock project description',
+          milestones: [
+            { id: 1, title: 'Planning', startDate: '2023-01-01', endDate: '2023-01-31' },
+            { id: 2, title: 'Development', startDate: '2023-02-01', endDate: '2023-05-31' },
+            { id: 3, title: 'Testing', startDate: '2023-06-01', endDate: '2023-06-30' },
+          ],
+          issues: [
+            { id: 1, title: 'Bug in login', description: 'Users unable to log in', status: 'In Progress' },
+            { id: 2, title: 'Add new feature', description: 'Implement dark mode', status: 'To Do' },
+          ],
+          documents: [
+            { id: 1, name: 'Project Spec', url: '#' },
+            { id: 2, name: 'Design Doc', url: '#' },
+          ],
+        };
+
+        setProject(mockProjectData);
+        setMilestones(mockProjectData.milestones);
+        setIssues(mockProjectData.issues);
+        setDocuments(mockProjectData.documents);
       } catch (error) {
         console.error('Failed to fetch project:', error);
         navigate('/projects', { replace: true }); // Redirect to projects page if project not found
