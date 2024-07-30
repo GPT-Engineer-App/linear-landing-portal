@@ -26,30 +26,32 @@ const Teams = ({ initialTeams }) => {
 
   return (
     <div>
-      <form onSubmit={handleAddTeam} className="mb-6 p-4 bg-gray-100 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add New Team</h3>
+      <form onSubmit={handleAddTeam} className="mb-6 p-6 bg-white rounded-lg shadow-md">
+        <h3 className="text-xl font-bold mb-4 text-gray-800">Add New Team</h3>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="teamName">Team Name</Label>
+            <Label htmlFor="teamName" className="text-gray-700">Team Name</Label>
             <Input
               id="teamName"
               value={newTeamName}
               onChange={(e) => setNewTeamName(e.target.value)}
               placeholder="Enter team name"
               required
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
           <div>
-            <Label htmlFor="teamDescription">Team Description</Label>
+            <Label htmlFor="teamDescription" className="text-gray-700">Team Description</Label>
             <Input
               id="teamDescription"
               value={newTeamDescription}
               onChange={(e) => setNewTeamDescription(e.target.value)}
               placeholder="Enter team description"
               required
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-          <Button type="submit">
+          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
             <Plus className="mr-2 h-4 w-4" /> Add Team
           </Button>
         </div>
