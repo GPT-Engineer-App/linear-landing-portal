@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Folder, Trash2, Users, ExternalLink } from "lucide-react";
+import { Folder, Trash2, Users, ExternalLink, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from 'react-router-dom';
 
