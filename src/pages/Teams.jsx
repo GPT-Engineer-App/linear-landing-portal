@@ -37,7 +37,7 @@ const Teams = ({ initialTeams }) => {
               onChange={(e) => setNewTeamName(e.target.value)}
               placeholder="Enter team name"
               required
-              className="mt-2 block w-full text-lg border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-2 block w-full text-lg text-gray-900 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
           <div>
@@ -48,7 +48,7 @@ const Teams = ({ initialTeams }) => {
               onChange={(e) => setNewTeamDescription(e.target.value)}
               placeholder="Enter team description"
               required
-              className="mt-2 block w-full text-lg border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-2 block w-full text-lg text-gray-900 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
           <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
