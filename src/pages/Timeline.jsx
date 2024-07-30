@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { parseISO, format, differenceInDays } from 'date-fns';
+import { parseISO, format, differenceInDays, addDays } from 'date-fns';
 
 const Timeline = ({ milestones }) => {
   const sortedMilestones = [...milestones].sort((a, b) => parseISO(a.startDate) - parseISO(b.startDate));
@@ -9,6 +9,22 @@ const Timeline = ({ milestones }) => {
   const totalDays = differenceInDays(endDate, startDate) + 1;
 
   const formatDate = (date) => format(parseISO(date), 'MM/dd/yyyy');
+
+  const generateDateMarkers = () => {
+    const markers = [];
+    const markerCount = 5; // Number of date markers to show
+    for (let i = 0; i < markerCount; i++) {
+      const date = addDays(startDate, (totalDays / (markerCount - 1)) * i);
+      const left = (differenceInDays(date, startDate) / totalDays) * 100;
+      markers.push(
+        <div key={i} className="absolute" style={{ left: `${left}%`, top: '100%' }}>
+          <div className="h-2 w-px bg-gray-300 mb-1"></div>
+          <span className="text-xs text-gray-500">{format(date, 'MM/dd')}</span>
+        </div>
+      );
+    }
+    return markers;
+  };
 
   return (
     <Card className="w-full mb-8">
@@ -39,6 +55,8 @@ const Timeline = ({ milestones }) => {
               </div>
             );
           })}
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
+          {generateDateMarkers()}
         </div>
       </CardContent>
     </Card>
