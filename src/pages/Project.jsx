@@ -96,8 +96,7 @@ const Project = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <AlertCircle className="mr-2" />
-                  {issue.title.replace(/^!/, '')}
+                  {issue.title}
                 </div>
                 <div>
                   <Button variant="ghost" size="icon" onClick={() => setEditingIssue(issue)}>
