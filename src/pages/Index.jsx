@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Teams from './Teams';
@@ -6,7 +6,6 @@ import Projects from './Projects';
 import Issues from './Issues';
 
 const Index = () => {
-  // Mock data for demonstration
   const [teams, setTeams] = useState([
     { 
       id: 1, 
@@ -33,6 +32,14 @@ const Index = () => {
     { id: 2, title: 'Implement dark mode', description: 'Add dark mode option to settings', status: 'To Do' },
   ];
 
+  const handleAddProject = useCallback((teamId, newProject) => {
+    setTeams(prevTeams => prevTeams.map(team => 
+      team.id === teamId 
+        ? { ...team, projects: [...team.projects, { ...newProject, id: Date.now() }] }
+        : team
+    ));
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <header className="container mx-auto py-6">
@@ -57,12 +64,12 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Your Teams</h2>
-          <Teams initialTeams={teams} />
+          <Teams initialTeams={teams} onAddProject={handleAddProject} />
         </section>
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Projects</h2>
-          <Projects projects={teams.flatMap(team => team.projects || [])} />
+          <Projects projects={allProjects} />
         </section>
 
         <section className="mb-20">

@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ProjectForm from './ProjectForm';
 
-const Teams = ({ initialTeams }) => {
-  const [teams, setTeams] = useState(initialTeams.map(team => ({ ...team, projects: [] })));
+const Teams = ({ initialTeams, onAddProject }) => {
+  const [teams, setTeams] = useState(initialTeams);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
   const [showProjectForm, setShowProjectForm] = useState(false);
@@ -33,11 +33,7 @@ const Teams = ({ initialTeams }) => {
   };
 
   const handleAddProject = (teamId, project) => {
-    setTeams(teams.map(team => 
-      team.id === teamId 
-        ? { ...team, projects: [...(team.projects || []), { ...project, id: Date.now() }] }
-        : team
-    ));
+    onAddProject(teamId, project);
     setShowProjectForm(false);
     setSelectedTeam(null);
   };
