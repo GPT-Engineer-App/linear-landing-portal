@@ -27,11 +27,11 @@ const Timeline = ({ milestones }) => {
   };
 
   return (
-    <Card className="w-full mb-8">
-      <CardHeader>
+    <Card className="w-full mb-8 p-6">
+      <CardHeader className="px-0 pt-0">
         <CardTitle>Project Timeline</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0 pb-0">
         <div className="relative h-[300px]">
           {sortedMilestones.map((milestone, index) => {
             const start = parseISO(milestone.startDate);
