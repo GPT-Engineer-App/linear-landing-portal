@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home, File } from "lucide-react";
+import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home, File, Flag } from "lucide-react";
+import GanttChart from './GanttChart';
 
 const Project = () => {
   const { id } = useParams();
@@ -14,22 +15,26 @@ const Project = () => {
   const [project, setProject] = useState(null);
   const [issues, setIssues] = useState([]);
   const [documents, setDocuments] = useState([]);
+  const [milestones, setMilestones] = useState([]);
 
   useEffect(() => {
     // Fetch project details from the state passed through navigation
     if (location.state && location.state.project) {
       setProject(location.state.project);
+      setMilestones(location.state.project.milestones || []);
     } else {
       // If project details are not available in state, you might want to fetch them from an API
       // For now, we'll set a placeholder
-      setProject({ name: `Project ${id}`, description: 'Project description' });
+      setProject({ name: `Project ${id}`, description: 'Project description', milestones: [] });
     }
   }, [id, location]);
   const [isAddIssueModalOpen, setIsAddIssueModalOpen] = useState(false);
   const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false);
+  const [isAddMilestoneModalOpen, setIsAddMilestoneModalOpen] = useState(false);
   const [editingIssue, setEditingIssue] = useState(null);
   const [newIssue, setNewIssue] = useState({ title: '', description: '', status: 'To Do' });
   const [newDocument, setNewDocument] = useState({ name: '', url: '' });
+  const [newMilestone, setNewMilestone] = useState({ title: '', startDate: '', endDate: '' });
 
   const handleAddIssue = () => {
     setIssues([...issues, { ...newIssue, id: Date.now() }]);
@@ -186,6 +191,60 @@ const Project = () => {
           </DialogContent>
         </Dialog>
       )}
+
+      <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+        <Flag className="mr-2 h-6 w-6" />
+        Milestones
+      </h2>
+
+      <Dialog open={isAddMilestoneModalOpen} onOpenChange={setIsAddMilestoneModalOpen}>
+        <DialogTrigger asChild>
+          <Button className="mb-4">
+            <Plus className="mr-2 h-4 w-4" /> Add New Milestone
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Milestone</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="milestoneTitle">Milestone Title</Label>
+              <Input
+                id="milestoneTitle"
+                value={newMilestone.title}
+                onChange={(e) => setNewMilestone({...newMilestone, title: e.target.value})}
+                placeholder="Enter milestone title"
+              />
+            </div>
+            <div>
+              <Label htmlFor="milestoneStartDate">Start Date</Label>
+              <Input
+                id="milestoneStartDate"
+                type="date"
+                value={newMilestone.startDate}
+                onChange={(e) => setNewMilestone({...newMilestone, startDate: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="milestoneEndDate">End Date</Label>
+              <Input
+                id="milestoneEndDate"
+                type="date"
+                value={newMilestone.endDate}
+                onChange={(e) => setNewMilestone({...newMilestone, endDate: e.target.value})}
+              />
+            </div>
+            <Button onClick={() => {
+              setMilestones([...milestones, { ...newMilestone, id: Date.now() }]);
+              setNewMilestone({ title: '', startDate: '', endDate: '' });
+              setIsAddMilestoneModalOpen(false);
+            }}>Add Milestone</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <GanttChart milestones={milestones} />
 
       <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
         <File className="mr-2 h-6 w-6" />
