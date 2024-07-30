@@ -82,7 +82,7 @@ const Project = () => {
       <nav className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold flex items-center">
           <FileText className="mr-2 h-8 w-8" />
-          {project ? project.name : 'Loading...'}
+          {project ? project.name : 'Loading Project...'}
         </h1>
         <Button asChild variant="outline">
           <Link to="/" className="flex items-center">
