@@ -46,7 +46,7 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Your Teams</h2>
-          <Teams teams={teams} />
+          <Teams initialTeams={teams} />
         </section>
 
         <section className="mb-20">
