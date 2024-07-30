@@ -80,6 +80,31 @@ const Project = () => {
           <Button className="mb-4" onClick={() => setIsAddDocumentModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" /> Add New Document
           </Button>
+          
+          <div className="space-y-4">
+            {documents.map((document) => (
+              <Card key={document.id}>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <File className="mr-2 h-4 w-4" />
+                      {document.name}
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => {
+                      setDocuments(documents.filter(doc => doc.id !== document.id));
+                    }}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <a href={document.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                    View Document
+                  </a>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </>
       )}
       
@@ -126,55 +151,6 @@ const Project = () => {
             <Plus className="mr-2 h-4 w-4" /> Add New Issue
           </Button>
         </div>
-      )}
-      
-      {showOverview && (
-        <>
-          <Timeline milestones={milestones} />
-          
-          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
-            <Flag className="mr-2 h-6 w-6" />
-            Milestones
-          </h2>
-          
-          <Button className="mb-4" onClick={() => setIsAddMilestoneModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Milestone
-          </Button>
-          
-          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
-            <File className="mr-2 h-6 w-6" />
-            Documents
-          </h2>
-          
-          <Button className="mb-4" onClick={() => setIsAddDocumentModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Document
-          </Button>
-          
-          <div className="space-y-4">
-            {documents.map((document) => (
-              <Card key={document.id}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <File className="mr-2 h-4 w-4" />
-                      {document.name}
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => {
-                      setDocuments(documents.filter(doc => doc.id !== document.id));
-                    }}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <a href={document.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                    View Document
-                  </a>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </>
       )}
       
       <Dialog open={isAddIssueModalOpen} onOpenChange={setIsAddIssueModalOpen}>
