@@ -25,34 +25,34 @@ const Teams = ({ initialTeams }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleAddTeam} className="mb-6 p-6 bg-white rounded-lg shadow-md">
-        <h3 className="text-xl font-bold mb-4 text-gray-800">Add New Team</h3>
-        <div className="space-y-4">
+    <div className="p-6 bg-gray-100">
+      <form onSubmit={handleAddTeam} className="mb-8 p-8 bg-white rounded-lg shadow-lg">
+        <h3 className="text-2xl font-bold mb-6 text-gray-900">Add New Team</h3>
+        <div className="space-y-6">
           <div>
-            <Label htmlFor="teamName" className="text-gray-700">Team Name</Label>
+            <Label htmlFor="teamName" className="text-lg font-medium text-gray-800">Team Name</Label>
             <Input
               id="teamName"
               value={newTeamName}
               onChange={(e) => setNewTeamName(e.target.value)}
               placeholder="Enter team name"
               required
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-2 block w-full text-lg border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
           <div>
-            <Label htmlFor="teamDescription" className="text-gray-700">Team Description</Label>
+            <Label htmlFor="teamDescription" className="text-lg font-medium text-gray-800">Team Description</Label>
             <Input
               id="teamDescription"
               value={newTeamDescription}
               onChange={(e) => setNewTeamDescription(e.target.value)}
               placeholder="Enter team description"
               required
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-2 block w-full text-lg border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-            <Plus className="mr-2 h-4 w-4" /> Add Team
+          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
+            <Plus className="mr-2 h-5 w-5" /> Add Team
           </Button>
         </div>
       </form>
