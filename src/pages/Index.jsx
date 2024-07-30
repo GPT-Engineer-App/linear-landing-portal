@@ -62,7 +62,7 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Projects</h2>
-          <Projects projects={allProjects} />
+          <Projects projects={teams.flatMap(team => team.projects || [])} />
         </section>
 
         <section className="mb-20">
