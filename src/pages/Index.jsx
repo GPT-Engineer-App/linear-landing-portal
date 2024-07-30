@@ -59,11 +59,6 @@ const Index = () => {
         </section>
 
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6">Current Projects</h2>
-          <Projects teams={teams} />
-        </section>
-
-        <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Active Issues</h2>
           <Issues issues={issues} />
         </section>

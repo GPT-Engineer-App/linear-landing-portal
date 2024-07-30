@@ -105,21 +105,6 @@ const Teams = ({ initialTeams }) => {
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              {team.projects.length > 0 && (
-                <div>
-                  <h4 className="font-semibold mb-2">Projects:</h4>
-                  <ul className="list-disc list-inside">
-                    {team.projects.map((project) => (
-                      <li key={project.id} className="flex justify-between items-center mb-2">
-                        <span>{project.name}</span>
-                        <Button variant="destructive" size="sm" onClick={() => handleDeleteProject(team.id, project.id)}>
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
