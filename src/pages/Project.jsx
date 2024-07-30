@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,11 +11,34 @@ import Timeline from './Timeline';
 
 const Project = () => {
   const { id } = useParams();
-  const location = useLocation();
-  const [project, setProject] = useState(location.state?.project || null);
-  const [issues, setIssues] = useState(project?.issues || []);
-  const [documents, setDocuments] = useState(project?.documents || []);
-  const [milestones, setMilestones] = useState(project?.milestones || []);
+  const navigate = useNavigate();
+  const [project, setProject] = useState(null);
+  const [issues, setIssues] = useState([]);
+  const [documents, setDocuments] = useState([]);
+  const [milestones, setMilestones] = useState([]);
+
+  useEffect(() => {
+    // Simulate fetching project data from an API
+    const fetchProject = async () => {
+      try {
+        // In a real application, you would fetch this data from your backend
+        const response = await fetch(`/api/projects/${id}`);
+        if (!response.ok) {
+          throw new Error('Project not found');
+        }
+        const projectData = await response.json();
+        setProject(projectData);
+        setMilestones(projectData.milestones || []);
+        setIssues(projectData.issues || []);
+        setDocuments(projectData.documents || []);
+      } catch (error) {
+        console.error('Failed to fetch project:', error);
+        navigate('/projects', { replace: true }); // Redirect to projects page if project not found
+      }
+    };
+
+    fetchProject();
+  }, [id, navigate]);
   const [isAddIssueModalOpen, setIsAddIssueModalOpen] = useState(false);
   const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false);
   const [isAddMilestoneModalOpen, setIsAddMilestoneModalOpen] = useState(false);
@@ -39,9 +62,6 @@ const Project = () => {
     setIssues(issues.filter(issue => issue.id !== id));
   };
 
-  const showIssues = location.state?.showIssues || true;
-  const showOverview = location.state?.showOverview || true;
-
   return (
     <div className="container mx-auto p-6">
       <nav className="flex justify-between items-center mb-6">
@@ -49,109 +69,13 @@ const Project = () => {
           <FileText className="mr-2 h-8 w-8" />
           {project ? project.name : 'Loading...'}
         </h1>
-        <div className="space-x-2">
-          <Button asChild variant="outline">
-            <Link to="/" className="flex items-center">
-              <Home className="mr-2 h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
-        </div>
+        <Button asChild variant="outline">
+          <Link to="/" className="flex items-center">
+            <Home className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
       </nav>
-      
-      {showOverview && (
-        <>
-          <Timeline milestones={milestones} />
-          
-          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
-            <Flag className="mr-2 h-6 w-6" />
-            Milestones
-          </h2>
-          
-          <Button className="mb-4" onClick={() => setIsAddMilestoneModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Milestone
-          </Button>
-          
-          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
-            <File className="mr-2 h-6 w-6" />
-            Documents
-          </h2>
-          
-          <Button className="mb-4" onClick={() => setIsAddDocumentModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Document
-          </Button>
-          
-          <div className="space-y-4">
-            {documents.map((document) => (
-              <Card key={document.id}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <File className="mr-2 h-4 w-4" />
-                      {document.name}
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => {
-                      setDocuments(documents.filter(doc => doc.id !== document.id));
-                    }}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <a href={document.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                    View Document
-                  </a>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </>
-      )}
-      
-      {showIssues && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4 flex items-center">
-            <AlertCircle className="mr-2 h-6 w-6" />
-            Issues
-          </h2>
-          <Button className="mb-4" onClick={() => setIsAddIssueModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Issue
-          </Button>
-          <div className="space-y-4">
-            {issues.map((issue) => (
-              <Card key={issue.id}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      {issue.title}
-                    </div>
-                    <div>
-                      <Button variant="ghost" size="icon" onClick={() => setEditingIssue(issue)}>
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleDeleteIssue(issue.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-500 mb-2">{issue.description}</p>
-                  <div className="text-sm font-semibold flex items-center">
-                    {issue.status === 'To Do' && <Clock className="mr-1 h-4 w-4 text-yellow-500" />}
-                    {issue.status === 'In Progress' && <AlertCircle className="mr-1 h-4 w-4 text-blue-500" />}
-                    {issue.status === 'Done' && <CheckCircle className="mr-1 h-4 w-4 text-green-500" />}
-                    {issue.status}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <Button className="mt-4" onClick={() => setIsAddIssueModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Add New Issue
-          </Button>
-        </div>
-      )}
       
       <Dialog open={isAddIssueModalOpen} onOpenChange={setIsAddIssueModalOpen}>
         <DialogTrigger asChild>
