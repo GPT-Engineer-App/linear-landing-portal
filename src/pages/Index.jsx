@@ -12,7 +12,7 @@ const Index = () => {
       name: 'Frontend Team', 
       description: 'Responsible for UI/UX development',
       projects: [
-        { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website', teamId: 1 },
+        { id: 1, name: 'Project 1', description: 'Overhaul of the company website', teamId: 1 },
       ]
     },
     { 
