@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Users, Plus, Trash2, FolderPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import ProjectForm from './ProjectForm';
 import Projects from './Projects';
+import AddProjectModal from './AddProjectModal';
 
 const Teams = ({ initialTeams, onAddProject }) => {
   const [teams, setTeams] = useState(initialTeams);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
 
   const handleAddTeam = (e) => {
@@ -106,7 +106,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
               <Button variant="outline" onClick={() => {
                 setSelectedTeam(team);
-                setShowProjectForm(true);
+                setIsAddProjectModalOpen(true);
               }}>
                 <FolderPlus className="mr-2 h-4 w-4" />
                 Add Project
@@ -122,13 +122,12 @@ const Teams = ({ initialTeams, onAddProject }) => {
           </Card>
         ))}
       </div>
-      {showProjectForm && selectedTeam && (
-        <ProjectForm
-          teamId={selectedTeam.id}
-          onSubmit={handleAddProject}
-          onCancel={() => setShowProjectForm(false)}
-        />
-      )}
+      <AddProjectModal
+        isOpen={isAddProjectModalOpen}
+        onClose={() => setIsAddProjectModalOpen(false)}
+        onSubmit={handleAddProject}
+        teamId={selectedTeam?.id}
+      />
     </div>
   );
 };
