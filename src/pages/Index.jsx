@@ -26,6 +26,8 @@ const Index = () => {
     },
   ]);
 
+  const allProjects = teams.flatMap(team => team.projects);
+
   const issues = [
     { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
     { id: 2, title: 'Implement dark mode', description: 'Add dark mode option to settings', status: 'To Do' },
@@ -56,6 +58,11 @@ const Index = () => {
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-6">Your Teams</h2>
           <Teams initialTeams={teams} />
+        </section>
+
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6">Projects</h2>
+          <Projects projects={allProjects} />
         </section>
 
         <section className="mb-20">
