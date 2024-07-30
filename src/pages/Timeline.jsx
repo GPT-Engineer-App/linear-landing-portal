@@ -1,20 +1,24 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { addDays, format, isAfter, isBefore, max, min, parseISO } from 'date-fns';
 
 const GanttChart = ({ milestones }) => {
   const data = milestones.map(milestone => ({
     name: milestone.title,
-    start: new Date(milestone.startDate).getTime(),
-    duration: new Date(milestone.endDate).getTime() - new Date(milestone.startDate).getTime(),
+    start: parseISO(milestone.startDate),
+    end: parseISO(milestone.endDate),
   }));
 
-  const minDate = Math.min(...data.map(d => d.start));
-  const maxDate = Math.max(...data.map(d => d.start + d.duration));
+  const minDate = min(data.map(d => d.start));
+  const maxDate = max(data.map(d => d.end));
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  // Extend the chart range by 7 days on both sides
+  const chartStartDate = addDays(minDate, -7);
+  const chartEndDate = addDays(maxDate, 7);
+
+  const formatDate = (date) => {
+    return format(date, 'MM/dd/yyyy');
   };
 
   const CustomTooltip = ({ active, payload }) => {
@@ -24,7 +28,7 @@ const GanttChart = ({ milestones }) => {
         <div className="bg-white p-2 border rounded shadow">
           <p className="font-bold">{data.name}</p>
           <p>Start: {formatDate(data.start)}</p>
-          <p>End: {formatDate(data.start + data.duration)}</p>
+          <p>End: {formatDate(data.end)}</p>
         </div>
       );
     }
@@ -46,14 +50,23 @@ const GanttChart = ({ milestones }) => {
           >
             <XAxis
               type="number"
-              domain={[minDate, maxDate]}
-              tickFormatter={formatDate}
+              domain={[chartStartDate.getTime(), chartEndDate.getTime()]}
+              tickFormatter={(timestamp) => formatDate(new Date(timestamp))}
+              ticks={[chartStartDate.getTime(), chartEndDate.getTime()]}
             />
             <YAxis type="category" dataKey="name" />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="duration" stackId="a">
+            <Bar dataKey="end" stackId="a">
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={`hsl(${index * 45}, 70%, 60%)`} />
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={`hsl(${index * 45}, 70%, 60%)`}
+                  shape={
+                    <rect x={entry.start.getTime()} 
+                          width={entry.end.getTime() - entry.start.getTime()}
+                    />
+                  }
+                />
               ))}
             </Bar>
           </BarChart>
