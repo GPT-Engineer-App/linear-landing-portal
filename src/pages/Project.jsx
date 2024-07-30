@@ -39,7 +39,6 @@ const Project = () => {
     setIssues(issues.filter(issue => issue.id !== id));
   };
 
-  const location = useLocation();
   const showIssues = location.state?.showIssues || false;
 
   return (
