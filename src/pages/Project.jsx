@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,23 +11,34 @@ import Timeline from './Timeline';
 
 const Project = () => {
   const { id } = useParams();
-  const location = useLocation();
+  const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [issues, setIssues] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [milestones, setMilestones] = useState([]);
 
   useEffect(() => {
-    // Fetch project details from the state passed through navigation
-    if (location.state && location.state.project) {
-      setProject(location.state.project);
-      setMilestones(location.state.project.milestones || []);
-    } else {
-      // If project details are not available in state, you might want to fetch them from an API
-      // For now, we'll set a placeholder
-      setProject({ name: `Project ${id}`, description: 'Project description', milestones: [] });
-    }
-  }, [id, location]);
+    // Simulate fetching project data from an API
+    const fetchProject = async () => {
+      try {
+        // In a real application, you would fetch this data from your backend
+        const response = await fetch(`/api/projects/${id}`);
+        if (!response.ok) {
+          throw new Error('Project not found');
+        }
+        const projectData = await response.json();
+        setProject(projectData);
+        setMilestones(projectData.milestones || []);
+        setIssues(projectData.issues || []);
+        setDocuments(projectData.documents || []);
+      } catch (error) {
+        console.error('Failed to fetch project:', error);
+        navigate('/projects', { replace: true }); // Redirect to projects page if project not found
+      }
+    };
+
+    fetchProject();
+  }, [id, navigate]);
   const [isAddIssueModalOpen, setIsAddIssueModalOpen] = useState(false);
   const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false);
   const [isAddMilestoneModalOpen, setIsAddMilestoneModalOpen] = useState(false);

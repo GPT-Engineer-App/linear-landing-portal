@@ -12,10 +12,6 @@ const Projects = ({ projects = [], onDeleteProject }) => {
     }
   };
 
-  const projectsWithDocuments = projects.map(project => ({
-    ...project,
-    documents: project.documents || []
-  }));
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
@@ -34,9 +30,9 @@ const Projects = ({ projects = [], onDeleteProject }) => {
             </Badge>
             <div className="flex justify-between items-center">
               <Button variant="outline" className="hover:bg-blue-100 dark:hover:bg-blue-900" asChild>
-                <Link to={`/project/${project.id}`}>
+                <Link to={`/project/${project.id}`} state={{ project }}>
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  View Issues
+                  View Project
                 </Link>
               </Button>
               <Button 
