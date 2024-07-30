@@ -224,6 +224,7 @@ const Project = () => {
                 type="date"
                 value={newMilestone.startDate}
                 onChange={(e) => setNewMilestone({...newMilestone, startDate: e.target.value})}
+                min={new Date().toISOString().split('T')[0]}
               />
             </div>
             <div>
@@ -233,6 +234,7 @@ const Project = () => {
                 type="date"
                 value={newMilestone.endDate}
                 onChange={(e) => setNewMilestone({...newMilestone, endDate: e.target.value})}
+                min={newMilestone.startDate || new Date().toISOString().split('T')[0]}
               />
             </div>
             <Button onClick={() => {

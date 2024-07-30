@@ -12,6 +12,21 @@ const GanttChart = ({ milestones }) => {
   const minDate = Math.min(...data.map(d => d.start));
   const maxDate = Math.max(...data.map(d => d.end));
 
+  // Calculate the range in days
+  const rangeDays = (maxDate - minDate) / (1000 * 60 * 60 * 24);
+
+  // Function to format dates based on the range
+  const formatDate = (date) => {
+    const d = new Date(date);
+    if (rangeDays > 365) {
+      return d.getFullYear().toString();
+    } else if (rangeDays > 31) {
+      return `${d.getMonth() + 1}/${d.getFullYear()}`;
+    } else {
+      return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    }
+  };
+
   return (
     <Card className="w-full h-[400px] mb-8">
       <CardHeader>
@@ -28,12 +43,12 @@ const GanttChart = ({ milestones }) => {
             <XAxis
               type="number"
               domain={[minDate, maxDate]}
-              tickFormatter={(unixTime) => new Date(unixTime).toLocaleDateString()}
+              tickFormatter={formatDate}
             />
             <YAxis type="category" dataKey="name" />
             <Tooltip
-              labelFormatter={(value) => new Date(value).toLocaleDateString()}
-              formatter={(value) => new Date(value).toLocaleDateString()}
+              labelFormatter={formatDate}
+              formatter={formatDate}
             />
             <Bar dataKey="start" stackId="a" fill="#8884d8" />
             <Bar dataKey="end" stackId="a" fill="#82ca9d" />
