@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Folder, Trash2, Users, ExternalLink } from "lucide-react";
+import { Folder, Trash2, Users, ExternalLink, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,12 @@ const Projects = ({ projects = [], onDeleteProject }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <>
+      <h1 className="text-3xl font-bold mb-6 flex items-center">
+        <Layers className="mr-2 h-8 w-8" />
+        Linear Projects
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
         <Card key={project.id} className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardHeader>
@@ -47,7 +52,8 @@ const Projects = ({ projects = [], onDeleteProject }) => {
           </CardContent>
         </Card>
       ))}
-    </div>
+      </div>
+    </>
   );
 };
 
