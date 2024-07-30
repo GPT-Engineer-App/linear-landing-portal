@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Plus } from "lucide-react";
+import { Users, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -22,6 +22,10 @@ const Teams = ({ initialTeams }) => {
       setNewTeamName('');
       setNewTeamDescription('');
     }
+  };
+
+  const handleDeleteTeam = (id) => {
+    setTeams(teams.filter(team => team.id !== id));
   };
 
   return (
@@ -68,7 +72,12 @@ const Teams = ({ initialTeams }) => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
-              <Button variant="outline">View Projects</Button>
+              <div className="flex justify-between items-center">
+                <Button variant="outline">View Projects</Button>
+                <Button variant="destructive" size="icon" onClick={() => handleDeleteTeam(team.id)}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
