@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Plus, Trash2, FolderPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Projects from './Projects';
 import AddProjectModal from './AddProjectModal';
 
@@ -13,6 +14,8 @@ const Teams = ({ initialTeams, onAddProject }) => {
   const [newTeamDescription, setNewTeamDescription] = useState('');
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
+
+  const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState(false);
 
   const handleAddTeam = (e) => {
     e.preventDefault();
@@ -26,6 +29,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
       setTeams([...teams, newTeam]);
       setNewTeamName('');
       setNewTeamDescription('');
+      setIsAddTeamModalOpen(false);
     }
   };
 
@@ -57,36 +61,43 @@ const Teams = ({ initialTeams, onAddProject }) => {
 
   return (
     <div className="p-6 bg-gray-100">
-      <form onSubmit={handleAddTeam} className="mb-8 p-8 bg-white rounded-lg shadow-lg">
-        <h3 className="text-2xl font-bold mb-6 text-gray-900">Add New Team</h3>
-        <div className="space-y-6">
-          <div>
-            <Label htmlFor="teamName" className="text-lg font-medium text-gray-800">Team Name</Label>
-            <Input
-              id="teamName"
-              value={newTeamName}
-              onChange={(e) => setNewTeamName(e.target.value)}
-              placeholder="Enter team name"
-              required
-              className="mt-2 block w-full text-lg text-gray-900 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            />
-          </div>
-          <div>
-            <Label htmlFor="teamDescription" className="text-lg font-medium text-gray-800">Team Description</Label>
-            <Input
-              id="teamDescription"
-              value={newTeamDescription}
-              onChange={(e) => setNewTeamDescription(e.target.value)}
-              placeholder="Enter team description"
-              required
-              className="mt-2 block w-full text-lg text-gray-900 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            />
-          </div>
-          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
-            <Plus className="mr-2 h-5 w-5" /> Add Team
+      <Dialog open={isAddTeamModalOpen} onOpenChange={setIsAddTeamModalOpen}>
+        <DialogTrigger asChild>
+          <Button className="mb-8">
+            <Plus className="mr-2 h-5 w-5" /> Add New Team
           </Button>
-        </div>
-      </form>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Team</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddTeam} className="space-y-6">
+            <div>
+              <Label htmlFor="teamName">Team Name</Label>
+              <Input
+                id="teamName"
+                value={newTeamName}
+                onChange={(e) => setNewTeamName(e.target.value)}
+                placeholder="Enter team name"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="teamDescription">Team Description</Label>
+              <Input
+                id="teamDescription"
+                value={newTeamDescription}
+                onChange={(e) => setNewTeamDescription(e.target.value)}
+                placeholder="Enter team description"
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Add Team
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <div className="space-y-8">
         {teams.map((team) => (
