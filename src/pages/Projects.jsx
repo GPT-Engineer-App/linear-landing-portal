@@ -35,19 +35,9 @@ const Projects = ({ projects = [], onDeleteProject }) => {
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
             <Button variant="outline" className="w-full justify-center" asChild>
-              <Link to={`/project/${project.id}`} state={{ project, showOverview: true }}>
+              <Link to={`/project/${project.id}`} state={{ project, showOverview: true, showIssues: true }}>
                 <ExternalLink className="mr-2 h-4 w-4" />
-                View Project
-              </Link>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-center" 
-              asChild
-            >
-              <Link to={`/project/${project.id}`} state={{ project, showIssues: true }}>
-                <AlertCircle className="mr-2 h-4 w-4" />
-                View Issues
+                View Project Details
               </Link>
             </Button>
             <Button 

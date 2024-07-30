@@ -39,8 +39,8 @@ const Project = () => {
     setIssues(issues.filter(issue => issue.id !== id));
   };
 
-  const showIssues = location.state?.showIssues || false;
-  const showOverview = location.state?.showOverview || false;
+  const showIssues = location.state?.showIssues || true;
+  const showOverview = location.state?.showOverview || true;
 
   return (
     <div className="container mx-auto p-6">
@@ -51,16 +51,6 @@ const Project = () => {
         </h1>
         <div className="space-x-2">
           <Button asChild variant="outline">
-            <Link to={`/project/${id}`} state={{ project, showOverview: true }} className="flex items-center">
-              Overview
-            </Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to={`/project/${id}`} state={{ project, showIssues: true }} className="flex items-center">
-              Issues
-            </Link>
-          </Button>
-          <Button asChild variant="outline">
             <Link to="/" className="flex items-center">
               <Home className="mr-2 h-4 w-4" />
               Back to Home
@@ -69,12 +59,39 @@ const Project = () => {
         </div>
       </nav>
       
+      {showOverview && (
+        <>
+          <Timeline milestones={milestones} />
+          
+          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+            <Flag className="mr-2 h-6 w-6" />
+            Milestones
+          </h2>
+          
+          <Button className="mb-4" onClick={() => setIsAddMilestoneModalOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" /> Add New Milestone
+          </Button>
+          
+          <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+            <File className="mr-2 h-6 w-6" />
+            Documents
+          </h2>
+          
+          <Button className="mb-4" onClick={() => setIsAddDocumentModalOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" /> Add New Document
+          </Button>
+        </>
+      )}
+      
       {showIssues && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4 flex items-center">
             <AlertCircle className="mr-2 h-6 w-6" />
             Issues
           </h2>
+          <Button className="mb-4" onClick={() => setIsAddIssueModalOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" /> Add New Issue
+          </Button>
           <div className="space-y-4">
             {issues.map((issue) => (
               <Card key={issue.id}>
