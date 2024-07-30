@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,10 +10,23 @@ import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home }
 
 const Project = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const [project, setProject] = useState(null);
   const [issues, setIssues] = useState([
     { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
     { id: 2, title: 'Implement dark mode', description: 'Add dark mode option to settings', status: 'To Do' },
   ]);
+
+  useEffect(() => {
+    // Fetch project details from the state passed through navigation
+    if (location.state && location.state.project) {
+      setProject(location.state.project);
+    } else {
+      // If project details are not available in state, you might want to fetch them from an API
+      // For now, we'll set a placeholder
+      setProject({ name: `Project ${id}`, description: 'Project description' });
+    }
+  }, [id, location]);
   const [isAddIssueModalOpen, setIsAddIssueModalOpen] = useState(false);
   const [editingIssue, setEditingIssue] = useState(null);
   const [newIssue, setNewIssue] = useState({ title: '', description: '', status: 'To Do' });
@@ -38,7 +51,7 @@ const Project = () => {
       <nav className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold flex items-center">
           <FileText className="mr-2 h-8 w-8" />
-          Project {id}
+          {project ? project.name : 'Loading...'}
         </h1>
         <Button asChild variant="outline">
           <Link to="/" className="flex items-center">

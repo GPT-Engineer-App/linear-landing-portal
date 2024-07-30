@@ -44,7 +44,7 @@ const Teams = ({ initialTeams, onAddProject }) => {
     onAddProject(teamId, newProject);
     setIsAddProjectModalOpen(false);
     setSelectedTeam(null);
-    navigate(`/project/${newProject.id}`);
+    navigate(`/project/${newProject.id}`, { state: { project: newProject } });
   };
 
   const handleDeleteProject = (projectId) => {
