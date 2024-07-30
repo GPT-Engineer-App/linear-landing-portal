@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock } from "lucide-react";
+import { AlertCircle, Plus, Pencil, Trash2, FileText, CheckCircle, Clock, Home } from "lucide-react";
 
 const Project = () => {
   const { id } = useParams();
@@ -35,10 +35,18 @@ const Project = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 flex items-center">
-        <FileText className="mr-2 h-8 w-8" />
-        Project {id}
-      </h1>
+      <nav className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold flex items-center">
+          <FileText className="mr-2 h-8 w-8" />
+          Project {id}
+        </h1>
+        <Button asChild variant="outline">
+          <Link to="/" className="flex items-center">
+            <Home className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+      </nav>
       
       <Dialog open={isAddIssueModalOpen} onOpenChange={setIsAddIssueModalOpen}>
         <DialogTrigger asChild>
