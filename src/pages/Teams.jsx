@@ -5,6 +5,7 @@ import { Users, Plus, Trash2, FolderPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ProjectForm from './ProjectForm';
+import Projects from './Projects';
 
 const Teams = ({ initialTeams, onAddProject }) => {
   const [teams, setTeams] = useState(initialTeams);
@@ -38,12 +39,11 @@ const Teams = ({ initialTeams, onAddProject }) => {
     setSelectedTeam(null);
   };
 
-  const handleDeleteProject = (teamId, projectId) => {
-    setTeams(teams.map(team => 
-      team.id === teamId 
-        ? { ...team, projects: team.projects.filter(project => project.id !== projectId) }
-        : team
-    ));
+  const handleDeleteProject = (projectId) => {
+    setTeams(teams.map(team => ({
+      ...team,
+      projects: team.projects.filter(project => project.id !== projectId)
+    })));
   };
 
   return (
@@ -79,28 +79,32 @@ const Teams = ({ initialTeams, onAddProject }) => {
         </div>
       </form>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="space-y-8">
         {teams.map((team) => (
-          <Card key={team.id}>
+          <Card key={team.id} className="overflow-hidden">
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="mr-2" />
-                {team.name}
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Users className="mr-2" />
+                  {team.name}
+                </div>
+                <Button variant="destructive" size="icon" onClick={() => handleDeleteTeam(team.id)}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-4">{team.description}</p>
-              <div className="flex justify-between items-center">
-                <Button variant="outline" onClick={() => {
-                  setSelectedTeam(team);
-                  setShowProjectForm(true);
-                }}>
-                  <FolderPlus className="mr-2 h-4 w-4" />
-                  Add Project
-                </Button>
-                <Button variant="destructive" size="icon" onClick={() => handleDeleteTeam(team.id)}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+              <Button variant="outline" onClick={() => {
+                setSelectedTeam(team);
+                setShowProjectForm(true);
+              }}>
+                <FolderPlus className="mr-2 h-4 w-4" />
+                Add Project
+              </Button>
+              <div className="mt-4">
+                <h4 className="text-lg font-semibold mb-2">Projects</h4>
+                <Projects projects={team.projects} onDeleteProject={handleDeleteProject} />
               </div>
             </CardContent>
           </Card>
