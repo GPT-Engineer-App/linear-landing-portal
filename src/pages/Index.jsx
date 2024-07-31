@@ -1,88 +1,38 @@
-import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Layers, Users, Folder, AlertCircle } from "lucide-react";
-import Teams from './Teams';
-import Projects from './Projects';
-import Issues from './Issues';
+import { ArrowRight, CheckCircle } from "lucide-react";
 
 const Index = () => {
-  const [teams, setTeams] = useState([
-    { 
-      id: 1, 
-      name: 'Frontend Team', 
-      description: 'Responsible for UI/UX development',
-      projects: [
-        { id: 1, name: 'Website Redesign', description: 'Overhaul of the company website', teamId: 1 },
-      ]
-    },
-    { 
-      id: 2, 
-      name: 'Backend Team', 
-      description: 'Handles server-side logic and databases',
-      projects: [
-        { id: 2, name: 'Mobile App', description: 'Development of iOS and Android apps', teamId: 2 },
-      ]
-    },
-  ]);
-
-  const allProjects = teams.flatMap(team => 
-    team.projects.map(project => ({ ...project, teamName: team.name }))
-  );
-
-  const issues = [
-    { id: 1, title: 'Fix login bug', description: 'Users unable to log in on Safari', status: 'In Progress' },
-    { id: 2, title: 'Implement dark mode', description: 'Add dark mode option to settings', status: 'To Do' },
-  ];
-
-  const handleAddProject = useCallback((teamId, newProject) => {
-    setTeams(prevTeams => prevTeams.map(team => 
-      team.id === teamId 
-        ? { ...team, projects: [...team.projects, { ...newProject, id: Date.now() }] }
-        : team
-    ));
-  }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <header className="container mx-auto py-6">
         <nav className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold flex items-center">
-            <Layers className="mr-2 h-6 w-6" />
-            Linear
-          </h1>
+          <h1 className="text-2xl font-bold">Linear</h1>
           <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">
             Sign Up
           </Button>
         </nav>
       </header>
 
-      <main className="container mx-auto mt-20">
-        <section className="text-center mb-20">
-          <h2 className="text-5xl font-bold mb-6">Manage Your Projects Efficiently</h2>
-          <p className="text-xl mb-10 max-w-2xl mx-auto">
-            Organize teams, projects, and issues all in one place. Streamline your workflow and boost productivity.
-          </p>
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-            Get Started <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </section>
+      <main className="container mx-auto mt-20 text-center">
+        <h2 className="text-5xl font-bold mb-6">Build better products, faster</h2>
+        <p className="text-xl mb-10 max-w-2xl mx-auto">
+          Linear is the issue tracking tool you'll enjoy using. Streamline your workflow, collaborate seamlessly, and ship with confidence.
+        </p>
+        <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+          Get Started <ArrowRight className="ml-2 h-5 w-5" />
+        </Button>
 
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 flex items-center">
-            <Users className="mr-2 h-6 w-6" />
-            Your Teams
-          </h2>
-          <Teams initialTeams={teams} onAddProject={handleAddProject} />
-        </section>
+        <img src="/placeholder.svg" alt="Linear app interface" className="mx-auto object-cover w-full max-w-4xl h-[400px] mt-16 rounded-lg shadow-2xl" />
 
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 flex items-center">
-            <Folder className="mr-2 h-6 w-6" />
-            Projects
-          </h2>
-          <Projects projects={allProjects} />
+        <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10">
+          {features.map((feature, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <CheckCircle className="h-12 w-12 text-blue-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-300">{feature.description}</p>
+            </div>
+          ))}
         </section>
-
       </main>
 
       <footer className="container mx-auto mt-20 py-6 text-center text-gray-400">
@@ -91,5 +41,20 @@ const Index = () => {
     </div>
   );
 };
+
+const features = [
+  {
+    title: "Intuitive Interface",
+    description: "Designed for efficiency and ease of use, helping teams focus on what matters."
+  },
+  {
+    title: "Powerful Automation",
+    description: "Automate repetitive tasks and workflows to save time and reduce errors."
+  },
+  {
+    title: "Real-time Collaboration",
+    description: "Work together seamlessly with your team, no matter where they are."
+  }
+];
 
 export default Index;
